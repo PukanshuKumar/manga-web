@@ -1,0 +1,66 @@
+// Define color variables for light theme
+:root {
+    --background-dark:  0, 0, 0;
+    --background-primary: #ffffff;
+    --background-primary-rgb: 255, 255, 255;
+    --background-secondary: #e9ecef;
+    --background-secondary-2: #5d5d5d;
+    --background-toggler: #5d5d5d;
+    --text-primary: #000000;
+    --text-primary-2: #ffffff;
+    --text-primary-3: #000000;
+    --text-secondary: #1992ea;
+    --text-secondary-2: #7b7b7b;
+    --border-primary: #777777;
+    --border-secondary: #049105;
+    --border-secondary-2: #1992ea;
+    --accent-primary: #ff530d;
+    --background-dark-primary:  #ff530d;
+    --accent-secondary: #f03a06;
+    --error: #ff0000;
+    --success: #31a95b;
+    --warning: #F9D932;
+    --breadcrumb-bg: #059e9a;
+  }
+
+  // Define color variables for dark theme
+  .dark-theme {
+    --background-dark-primary:  #2b2b2b;
+    --background-dark:  0, 0, 0;
+    --background-primary: #3e3e3e;
+    --background-primary-rgb: 62, 62, 62;
+    --background-secondary: #5a5454;
+    --background-secondary-2: #2a524a;
+    --background-toggler: #262626;
+    --text-primary: #ffffff;
+    --text-primary-2: #ffffff;
+    --text-primary-3: #000000;
+    --text-secondary: #1992ea;
+    --text-secondary-2: #bdbdbd;
+    --border-primary: #777777;
+    --border-secondary: #086ec1;
+    --border-secondary-2: #086ec1;
+    --accent-primary: #2a524a;
+    // --accent-primary: #ff530d;
+    --accent-secondary: #d70000;
+    --error: #ff0000;
+    --success: #049105;
+    --warning: #F9D932;
+    --breadcrumb-bg: #059e9a;
+  }
+
+
+  $primary-color: var(--text-primary);
+$secondary-color: var(--text-secondary);
+$background-dark: var(--background-dark-primary);
+$border-color: var(--border-primary);
+$gap: 10px;
+
+
+// Typography
+$font-stack: "Roboto", sans-serif;
+
+// Spacing
+$spacing-sm: 5px;
+$spacing-md: 10px;
+$spacing-lg: 20px;

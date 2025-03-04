@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+</head>
+
+<body>
+  <div class="d-flex flex-column h-m-100">
+    <header class="mt-4">
+      <div class="container">
+        <div class="">
+          <div class="logo_wrapper">
+            <a href="index.html" class="">
+              <img src="assets/images/logo/logo.png" class="logo img-fluid" alt="" />
+            </a>
+          </div>
+          <!-- <nav class="nav_wrapper"> -->
+          <div class="top_nav">
+            <div class="search-box">
+              <label class="icon" for="txt-search"><i class="fas fa-search"></i></label>
+              <input type="text" class="form-control txt-search" id="txt-search"
+                placeholder="Search Manga(everything)" />
+            </div>
+            <div class="auth_user">
+              <div class="user_box">
+                <span class="user_img">
+                  <img src="assets/images/dummy.jpg" class="img-fluid" alt="user">
+                </span>
+                <span class="user_name">Pukanshu kumar</span>
+              </div>
+
+              <a href="bookmark.html" type="button" class="btn notification-bell" title="notification">
+                <span class="icon"><i class="fas fa-bell"></i></span>
+                <span class="notify_count">10</span>
+              </a>
+
+              <button type="button" class="btn logout-btn" title="logout">
+                <span class="icon"><i class="fas fa-power-off"></i></span>
+              </button>
+            </div>
+            <div class="auth_btn_wrapper">
+<a href="auth-login.html" class="auth_btn">Login <span class="icon"><i
+  class="fas fa-sign-in-alt"></i></span></a>
+<a href="auth-register.html" class="auth_btn">Register <span class="icon"><i
+  class="fas fa-sign-in-alt"></i></span></a>
+            </div>
+            <div class="theme_btn ms-auto">
+              <button type="button" class="btn light-btn"><i class="fas fa-sun"></i></button>
+              <button type="button" class="btn dark-btn d-none"><i class="fas fa-moon"></i></button>
+            </div>
+          </div>
+          <div class="bottom_nav">
+            <button type="button" class="btn navbar-toggler">Menu</button>
+            <ul class="nav_links_wrapper">
+              <li>
+                <a href="list-view.html" class="nav-link">Manga Online</a>
+              </li>
+              <li>
+                <a href="list-view.html" class="nav-link">Latest Manga</a>
+              </li>
+              <li><a href="list-view.html" class="nav-link">Hot Manga</a></li>
+              <li>
+                <a href="list-view.html" class="nav-link">Newest Manga</a>
+              </li>
+            </ul>
+          </div>
+          <!-- </nav> -->
+        </div>
+      </div>
+    </header>
+    <main class="flex-fill ">
+
+      <section class="main_section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="breadcrumb_wrapper mt-3">
+                <div class="breadcrumb_item">
+                  <a href="javascript:void(0)">Read Manga Online</a>
+                </div>
+                <div class="breadcrumb_item">
+                  <a href="javascript:void(0)"><span>Register</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="card card-body border-0 rounded-0 auth_login_wrapper">
+                <div class="row">
+                  <div class="col-md-5">
+                    <h1 class="fs-5">Create your Manga Account</h1>
+                    <form class="form_wrapper">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="txt-username"><i class="fas fa-users"></i></span>
+                        <input type="text" class="form-control" placeholder="Username" name="txt-username"
+                          aria-label="username" aria-describedby="txt-username">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="txt-password"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" placeholder="Password" name="txt-password"
+                          aria-label="password" aria-describedby="txt-password">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="txt-display-name"><i class="fas fa-users"></i></span>
+                        <input type="text" class="form-control" placeholder="display name" name="txt-display-name"
+                          aria-label="display-name" aria-describedby="txt-display-name">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="txt-recover-email"><i class="fas fa-envelope"></i></span>
+                        <input type="text" class="form-control" placeholder="email to recover password"
+                          name="txt-recover-email" aria-label="recover-email" aria-describedby="txt-recover-email">
+                      </div>
+                      <div class="captcher-wrapper mb-3">
+                        <span class="captchar-text" id="txt-captcher">6076</span>
+                        <input type="text" class="form-control" placeholder="captcher" name="txt-captcher"
+                          aria-label="captcher" aria-describedby="txt-captcher">
+                      </div>
+
+                      <div class="submit-wrapper">
+                        <button class="btn btn-secondary btn-lg w-100">
+                          SIGN UP
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="container">
+        <div class="footer-wrapper">
+          <div class="row">
+            <div class="col-md-4">
+              <h6><a href="javascript:void(0)" class="text-decoration-none footer-link">Privacy Policy</a></h6>
+            </div>
+            <div class="col-md-4">
+              <h6><a href="javascript:void(0)" class="text-decoration-none footer-link">Term & Conditions</a></h6>
+            </div>
+            <div class="col-md-4">
+              <h3 class="footer-tital">About Us</h3>
+              <ul class="list-unstyled">
+                <li>
+                  <h6>Email: Domain@gmail.com</h6>
+                </li>
+                <li>
+                  <h6>Current Time and Data is <span id="dataTime"></span></h6>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script src="vendors/js/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/owl.carousel.min.js"></script>
+  <script src="vendors/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/scripts.js"></script>
+
+</body>
+
+</html>

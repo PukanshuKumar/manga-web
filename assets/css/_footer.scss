@@ -1,0 +1,16 @@
+
+.footer-wrapper {
+    background-color: var(--background-primary);
+    padding: 10px;
+    border-top: 4px solid var(--border-secondary-2);
+
+    .footer-link {
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .footer-tital {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+    }
+  }

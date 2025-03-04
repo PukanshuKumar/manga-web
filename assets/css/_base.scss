@@ -1,0 +1,42 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--text-primary);
+  background: url(../images/body-bg-light.png);
+  background-attachment: fixed;
+}
+
+body.dark-theme {
+  background: var(--background-secondary);
+}
+
+// Extendable base button styles
+%base-button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  display: inline-block;
+  text-align: center;
+}
+
+// Extendable card container
+%card-container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+%text-truncate {
+  width: 100%;
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  font-weight: 400;
+  text-decoration: none;
+}

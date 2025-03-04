@@ -1,0 +1,57 @@
+
+
+// Common Mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @mixin text-truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  @mixin button-style {
+    color: var(--text-primary-2);
+    text-decoration: none;
+    padding: 5px 10px;
+    display: block;
+    font-size: 1rem;
+    transition: all 0.25s ease;
+  }
+
+  @mixin hover-darken($color) {
+    &:hover {
+      background-color: color-mix(in srgb, $color, black 20%);
+    }
+  }
+
+// Mixin for buttons
+@mixin button($bg, $color) {
+    background-color: $bg;
+    color: $color;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: darken($bg, 10%);
+    }
+  }
+
+  // Mixin for responsive breakpoints
+  @mixin respond-to($breakpoint) {
+    @if $breakpoint == "small" {
+      @media (max-width: 600px) { @content; }
+    }
+    @else if $breakpoint == "medium" {
+      @media (max-width: 900px) { @content; }
+    }
+    @else if $breakpoint == "large" {
+      @media (max-width: 1200px) { @content; }
+    }
+  }
