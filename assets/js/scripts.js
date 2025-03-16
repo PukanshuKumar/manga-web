@@ -118,34 +118,4 @@ genre_filter_list.forEach(function (item) {
 })
 
 
-// Initialize Owl Carousel
-$("#hero-slider").owlCarousel({
-    loop: true,
-    autoPlay: true,
-    items: 8,
-    margin: 10,
-    autoheight: true,
-    lazyLoad: true,
-    nav: true,
-    dots: false,
-    navText: [
-        "<i class='fas fa-chevron-left'></i>",
-        "<i class='fas fa-chevron-right'></i>",
-    ],
-    autoplayHoverPause: true,
-    responsive: {
-        0: {
-            items: 2,
-        },
-        763: {
-            items: 3,
-        },
-        992: {
-            items: 4,
-        },
-        1000: {
-            items: 8,
-        },
-    },
-});
 

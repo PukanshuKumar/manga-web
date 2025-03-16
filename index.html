@@ -620,6 +620,114 @@
   <script src="vendors/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/scripts.js"></script>
 
+
+  <script>
+    async function fetchtopManga() {
+      try {
+        const response = await fetch("http://localhost:5000/top-all-time");
+        const data = await response.json();
+        console.log(data);
+
+        const mangaList = document.getElementById("most_popular_list");
+        mangaList.innerHTML = ""; // Clear previous list
+
+        data.forEach(manga => {
+          const mangaItem = document.createElement("li");
+          mangaItem.classList.add("list_item");
+          const chapterTitle = manga.chapters?.title ? `: ${manga.chapters.title}` : "";
+          mangaItem.innerHTML = `
+                <a href="detail-view.html?id=${manga.id}">
+                        <span class="list_item_title">
+                          ${manga.title || "No Title"}
+                        </span> -
+                        <span class="list_item_title">
+                          Chapter ${manga.chapters?.chapter || "N/A"}${chapterTitle}
+                        </span>
+                      </a>
+            `;
+
+          mangaList.appendChild(mangaItem);
+        });
+      } catch (error) {
+        console.error("Error fetching new manga:", error);
+      }
+    }
+
+    fetchtopManga();
+
+  </script>
+
+
+  <script>
+    async function fetchTopWeeklyManga() {
+      try {
+        const response = await fetch("http://localhost:5000/top-weekly");
+        const data = await response.json();
+        console.log(data);
+
+        const mangaList = $("#hero-slider");
+        mangaList.trigger("destroy.owl.carousel"); // Destroy previous instance
+        mangaList.html(""); // Clear previous list
+
+        data.forEach(manga => {
+          const mangaItem = document.createElement("div");
+          mangaItem.classList.add("slider_item");
+
+          const chapterTitle = manga.chapters?.title ? `: ${manga.chapters.title}` : "";
+          const coverUrl = manga.cover || "assets/images/dummy.jpg";
+
+          mangaItem.innerHTML = `
+                <img src="${coverUrl}" class="slider_img" alt="${manga.title || "No Title"}" referrerpolicy="no-referrer">
+                <div class="slider_caption">
+                    <h3 class="item_title">
+                        <a href="detail-view.html?id=${manga.id}" class="chapter_link">
+                            ${manga.title || "No Title"}
+                        </a>
+                    </h3>
+                    <p class="item_text">
+                        <a href="detail-view.html?id=${manga.id}" class="chapter_link">
+                            Chapter ${manga.chapters?.chapter || "N/A"}${chapterTitle}
+                        </a>
+                    </p>
+                </div>
+                <a href="detail-view.html?id=${manga.id}">
+                    <img src="${coverUrl}" class="img-fluid" alt="${manga.title || "No Title"}" referrerpolicy="no-referrer">
+                </a>
+            `;
+
+          mangaList.append(mangaItem);
+        });
+
+        // Reinitialize Owl Carousel
+        mangaList.owlCarousel({
+          loop: true,
+          autoplay: true,
+          items: 8,
+          margin: 10,
+          autoHeight: true,
+          lazyLoad: true,
+          nav: true,
+          dots: false,
+          navText: [
+            "<i class='fas fa-chevron-left'></i>",
+            "<i class='fas fa-chevron-right'></i>",
+          ],
+          autoplayHoverPause: true,
+          responsive: {
+            0: { items: 2 },
+            763: { items: 3 },
+            992: { items: 4 },
+            1000: { items: 8 },
+          },
+        });
+
+      } catch (error) {
+        console.error("Error fetching new manga:", error);
+      }
+    }
+    fetchTopWeeklyManga();
+  </script>
+
   <script>
     async function fetchNewManga() {
       try {
@@ -748,8 +856,6 @@
     //                 <div class="listing_panel_item" id="item1">
     //                 <div class="item_img">
     //                   <img src="${manga.cover}" class="img-fluid" alt="" referrerpolicy="no-referrer" >
-    //                   <!-- <span class="badge hot_badge">HOT</span> -->
-    //                   <!-- <span class="badge new_badge">new</span> -->
     //                   <span class="badge ${manga.popularityTag}_badge">${manga.popularityTag}</span>
     //                   <span class="rating">
     //                     <span class="content">${manga.rating}</span>

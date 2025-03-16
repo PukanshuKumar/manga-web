@@ -96,7 +96,7 @@ app.get("/latest-manga", async (req, res) => {
                     // const originalCoverUrl = `https://uploads.mangadex.org/covers/${manga.id}/${coverFilename}`;
         // coverUrl = `${SERVER_URL}/proxy-image?url=${encodeURIComponent(originalCoverUrl)}`;
                     // coverUrl = `https://uploads.mangadex.org/covers/${manga.id}/${coverFilename}.{256, 512}.jpg`;
-                    coverUrl = `https://uploads.mangadex.org/covers/${manga.id}/${coverFilename}.256.jpg`;
+                    coverUrl = `https://uploads.mangadex.org/covers/${manga.id}/${coverFilename}`;
                 }
             }
             // Get Cover Image end
@@ -201,7 +201,7 @@ app.get("/new-manga", async (req, res) => {
                     // const coverResponse = await fetch(`${BASE_URL}/cover/${coverRel.id}`);
                     const coverData = await coverResponse.json();
                     if (coverData.data?.attributes?.fileName) {
-                        coverUrl = `https://uploads.mangadex.org/covers/${manga.id}/${coverData.data.attributes.fileName}.256.jpg`;
+                        coverUrl = `https://uploads.mangadex.org/covers/${manga.id}/${coverData.data.attributes.fileName}`;
                     }
                 } catch (err) {
                     console.error("Failed to fetch cover:", err);
@@ -279,140 +279,6 @@ app.get("/new-manga", async (req, res) => {
     }
 });
 
-function getEncodedCurrentDate() {
-    const now = new Date();
-    now.setDate(now.getDate() - 7); // Subtract 7 days for weekly data
-
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-
-    const originalDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-    return encodeURIComponent(originalDate);
-}
-
-
-
-app.get("/top-weekly", async (req, res) => {
-    try {
-        let offset = req.query.offset || 0;
-        const encodedDate = getEncodedCurrentDate();
-        // const response = await fetchWithRetry(`${BASE_URL}/manga?limit=12&order[followedCount]=desc&offset=${offset}`);
-        const response = await fetchWithRetry(`${BASE_URL}/manga?limit=10&includedTagsMode=AND&excludedTagsMode=OR&status%5B%5D=ongoing&status%5B%5D=completed&status%5B%5D=hiatus&contentRating%5B%5D=safe&contentRating%5B%5D=suggestive&contentRating%5B%5D=erotica&updatedAtSince=${encodedDate}&order%5BlatestUploadedChapter%5D=desc&includes%5B%5D=manga
-`);
-        const mangaData = await response.json();
-
-        if (!mangaData.data) {
-            return res.status(404).json({ error: "No manga found" });
-        }
-
-        const now = new Date();
-
-        // Process manga list
-        const topMangaList = await Promise.all(mangaData.data.map(async (manga) => {
-            // Get Cover Image
-            const coverRel = manga.relationships.find(rel => rel.type === "cover_art");
-            let coverUrl = "https://via.placeholder.com/150";
-
-            if (coverRel) {
-                try {
-                    const coverResponse = await fetchWithRetry(`${BASE_URL}/cover/${coverRel.id}`);
-                    // const coverResponse = await fetch(`${BASE_URL}/cover/${coverRel.id}`);
-                    const coverData = await coverResponse.json();
-                    if (coverData.data?.attributes?.fileName) {
-                        coverUrl = `https://uploads.mangadex.org/covers/${manga.id}/${coverData.data.attributes.fileName}.256.jpg`;
-                    }
-                } catch (err) {
-                    console.error("Failed to fetch cover:", err);
-                }
-            }
-
-
-            // Get Latest Chapter
-            let latestChapter = null;
-            try {
-                const chapterResponse = await fetchWithRetry(`${BASE_URL}/chapter?manga=${manga.id}&limit=1&translatedLanguage[]=en&order[chapter]=desc`);
-                const chapterData = await chapterResponse.json();
-
-                if (chapterData.data.length > 0) {
-                    const ch = chapterData.data[0];
-                    latestChapter = {
-                        chapter: ch.attributes.chapter || "N/A",
-                        title: ch.attributes.title || "",
-                        id: ch.id,
-                        updatedAt: ch.attributes.readableAt || "Unknown Date"
-                    };
-                }
-            } catch (err) {
-                console.error("Failed to fetch latest chapter:", err);
-            }
-
-
-
-
-            return {
-                id: manga.id,
-                title: manga.attributes.title.en || "No Title",
-                cover: coverUrl,
-                chapters: latestChapter,
-            };
-        }));
-
-        res.json(topMangaList);
-    } catch (error) {
-        console.error("Error:", error);
-        res.status(500).json({ error: "Failed to fetch top weekly manga" });
-    }
-});
-
-
-app.get("/top-all-time", async (req, res) => {
-    try {
-        const response = await fetchWithRetry(`${BASE_URL}/manga?limit=10&order[followedCount]=desc`);
-        const mangaData = await response.json();
-
-        if (!mangaData.data) {
-            return res.status(404).json({ error: "No manga found" });
-        }
-
-        // Process manga list
-        const topMangaList = await Promise.all(mangaData.data.map(async (manga) => {
-
-            // Get Latest Chapter
-            let latestChapter = null;
-            try {
-                const chapterResponse = await fetchWithRetry(`${BASE_URL}/chapter?manga=${manga.id}&limit=1&translatedLanguage[]=en&order[chapter]=desc`);
-                const chapterData = await chapterResponse.json();
-
-                if (chapterData.data.length > 0) {
-                    const ch = chapterData.data[0];
-                    latestChapter = {
-                        chapter: ch.attributes.chapter || "N/A",
-                        title: ch.attributes.title || "",
-                        id: ch.id,
-                        updatedAt: ch.attributes.readableAt || "Unknown Date"
-                    };
-                }
-            } catch (err) {
-                console.error("Failed to fetch latest chapter:", err);
-            }
-
-            return {
-                id: manga.id,
-                title: manga.attributes.title.en || "No Title",
-                chapters: latestChapter
-            };
-        }));
-
-        res.json(topMangaList);
-    } catch (error) {
-        console.error("Error:", error);
-        res.status(500).json({ error: "Failed to fetch top all-time manga" });
-    }
-});
 
 
 
@@ -465,26 +331,26 @@ app.get("/manga/:id", async (req, res) => {
         const genres = manga.attributes.tags.map(tag => tag.attributes.name.en);
 
 
-        // let follows = 0, rating = "N/A";
-        // try {
-        //     // const statsResponse = await fetch(`${BASE_URL}/statistics/manga/${manga.id}`);
-        //     const statsResponse = await fetchWithRetry(`${BASE_URL}/statistics/manga/${manga.id}`);
-        //     const statsData = await statsResponse.json();
-        //     if (statsData.statistics && statsData.statistics[manga.id]) {
-        //         follows = statsData.statistics[manga.id].follows || 0;
-        //         const rawRating = statsData.statistics[manga.id].rating?.average || 0;
-        //         rating = rawRating ? (rawRating / 2).toFixed(1) : "N/A";
-        //     }
-        // } catch (error) {
-        //     console.error("Error fetching manga stats:", error);
-        // }
+        let follows = 0, rating = "N/A";
+        try {
+            // const statsResponse = await fetch(`${BASE_URL}/statistics/manga/${manga.id}`);
+            const statsResponse = await fetchWithRetry(`${BASE_URL}/statistics/manga/${manga.id}`);
+            const statsData = await statsResponse.json();
+            if (statsData.statistics && statsData.statistics[manga.id]) {
+                follows = statsData.statistics[manga.id].follows || 0;
+                const rawRating = statsData.statistics[manga.id].rating?.average || 0;
+                rating = rawRating ? (rawRating / 2).toFixed(1) : "N/A";
+            }
+        } catch (error) {
+            console.error("Error fetching manga stats:", error);
+        }
 
         // 🔹 Fetch Statistics (Follows & Ratings)
-        const statsResponse = await fetch(`${BASE_URL}/statistics/manga/${mangaId}`);
-        const statsData = await statsResponse.json();
-        const follows = statsData.statistics?.[mangaId]?.follows || 0; // Followers count
-        const rawRating = statsData.statistics?.[mangaId]?.rating?.average || 0;
-        const rating = rawRating ? (rawRating / 2).toFixed(1) : "N/A"; // Convert to 5-star rating
+        // const statsResponse = await fetch(`${BASE_URL}/statistics/manga/${mangaId}`);
+        // const statsData = await statsResponse.json();
+        // const follows = statsData.statistics?.[mangaId]?.follows || 0; // Followers count
+        // const rawRating = statsData.statistics?.[mangaId]?.rating?.average || 0;
+        // const rating = rawRating ? (rawRating / 2).toFixed(1) : "N/A"; // Convert to 5-star rating
         const totalLikes = statsData.statistics?.[mangaId]?.rating?.count || 0; // Total Likes
 
 
