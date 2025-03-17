@@ -649,6 +649,8 @@
 
       .item_content {
         width: calc(100% - 126px);
+        display: flex;
+        flex-direction: column;
 
         // flex-grow: 1;
         @media (max-width:768px) {
@@ -714,6 +716,7 @@
           overflow: hidden;
           font-size: 14px;
           text-align: justify;
+          flex: 1 1 auto !important;
         }
 
         .item_btn_wrapper {
@@ -1576,4 +1579,17 @@
       }
     }
   }
+}
+
+
+div#loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  background: #0000009c;
+  color: white;
 }

@@ -94,7 +94,7 @@ app.get("/latest-manga", async (req, res) => {
                 const coverFilename = coverData.data?.attributes?.fileName;
                 if (coverFilename) {
                     // const originalCoverUrl = `https://uploads.mangadex.org/covers/${manga.id}/${coverFilename}`;
-        // coverUrl = `${SERVER_URL}/proxy-image?url=${encodeURIComponent(originalCoverUrl)}`;
+                    // coverUrl = `${SERVER_URL}/proxy-image?url=${encodeURIComponent(originalCoverUrl)}`;
                     // coverUrl = `https://uploads.mangadex.org/covers/${manga.id}/${coverFilename}.{256, 512}.jpg`;
                     coverUrl = `https://uploads.mangadex.org/covers/${manga.id}/${coverFilename}.256.jpg`;
                 }
@@ -443,7 +443,7 @@ app.get("/manga/:id", async (req, res) => {
 
         // 🔹 Fetch Alternative Titles
         // const altTitles = manga.attributes.altTitles.map(obj => Object.values(obj)[0]);
-        const altTitles = manga.attributes.altTitles?.length > 0 ? manga.attributes.altTitles.map(obj => Object.values(obj)[0]): [];
+        const altTitles = manga.attributes.altTitles?.length > 0 ? manga.attributes.altTitles.map(obj => Object.values(obj)[0]) : [];
 
 
         // 🔹 Fetch Author(s)
@@ -554,6 +554,95 @@ app.get("/manga/:id", async (req, res) => {
     }
 });
 
+
+app.get("/new-mangas", async (req, res) => {
+    try {
+        let offset = parseInt(req.query.offset) || 0;
+        let limit = parseInt(req.query.limit) || 10;
+
+        const response = await fetchWithRetry(`${BASE_URL}/manga?order[createdAt]=desc&limit=${limit}&offset=${offset}&hasAvailableChapters=true`);
+        const mangaData = await response.json();
+
+        const mangaList = await Promise.all(mangaData.data.map(async (manga) => {
+            let coverUrl = "https://via.placeholder.com/150";
+            const coverRel = manga.relationships.find(rel => rel.type === "cover_art");
+            if (coverRel) {
+                const coverResponse = await fetchWithRetry(`${BASE_URL}/cover/${coverRel.id}`);
+                const coverData = await coverResponse.json();
+                const coverFilename = coverData.data?.attributes?.fileName;
+                if (coverFilename) {
+                    coverUrl = `https://uploads.mangadex.org/covers/${manga.id}/${coverFilename}.256.jpg`;
+                }
+            }
+
+            let author = "Unknown";
+            const authorRel = manga.relationships.find(rel => rel.type === "author");
+            if (authorRel) {
+                const authorResponse = await fetchWithRetry(`${BASE_URL}/author/${authorRel.id}`);
+                const authorData = await authorResponse.json();
+                author = authorData.data?.attributes?.name || "Unknown";
+            }
+
+            let latestChapter = null;
+            try {
+                const chapterResponse = await fetchWithRetry(`${BASE_URL}/chapter?manga=${manga.id}&limit=1&translatedLanguage[]=en&order[chapter]=desc`);
+                const chapterData = await chapterResponse.json();
+
+                if (chapterData.data.length > 0) {
+                    const ch = chapterData.data[0];
+                    latestChapter = {
+                        chapter: ch.attributes.chapter || "N/A",
+                        title: ch.attributes.title || "",
+                        id: ch.id,
+                        updatedAt: ch.attributes.readableAt || "Unknown Date"
+                    };
+                }
+            } catch (err) {
+                console.error("Failed to fetch latest chapter:", err);
+            }
+
+             // Exclude if no valid chapter
+            //  if (!latestChapter || !latestChapter.chapter) {
+            //     return null;
+            // }
+
+            const statsResponse = await fetchWithRetry(`${BASE_URL}/statistics/manga/${manga.id}`);
+            const statsData = await statsResponse.json();
+            const follows = statsData.statistics[manga.id]?.follows || 0;
+            const rawRating = statsData.statistics[manga.id]?.rating?.average || 0;
+            const rating = rawRating ? (rawRating / 2).toFixed(1) : "N/A";
+
+            let tag = "";
+            if (follows > 50000) tag = "ss";
+            else if (follows > 10000) tag = "hot";
+
+            if (manga.attributes.createdAt) {
+                const createdAt = new Date(manga.attributes.createdAt);
+                const now = new Date();
+                if ((now - createdAt) / (1000 * 60 * 60 * 24) < 30) tag = "new";
+            }
+
+            return {
+                id: manga.id,
+                title: manga.attributes.title.en || "No Title",
+                cover: `${SERVER_URL}/proxy-image?url=${encodeURIComponent(coverUrl)}`,
+                description: manga.attributes.description.en || "No Description",
+                author: author,
+                chapters: latestChapter,
+                tags: manga.attributes.tags.map(tag => tag.attributes.name.en),
+                rating: rating,
+                lastUpdated: manga.attributes.updatedAt,
+                views: follows,
+                popularityTag: tag,
+                totalManga: mangaData.total,
+            };
+        }));
+        res.json(mangaList.filter(manga => manga !== null));
+        // res.json(mangaList);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch manga data" });
+    }
+});
 
 
 const PORT = process.env.PORT || 5000;
