@@ -124,7 +124,6 @@ async function genreManga() {
     const BASE_URL = "http://localhost:5000";
     const response = await fetch(`${BASE_URL}/genres`);
     const genreList = await response.json();
-    console.log(genreList);
 
     const container = document.getElementById("genres_list_container");
     container.innerHTML = "";
@@ -139,12 +138,26 @@ async function genreManga() {
 
         container.appendChild(genreItem);
     });
+    updateGenre();
 
     const urlParams = new URLSearchParams(window.location.search);
-    const activeGenreId = urlParams.get('genres');
     let activeStatus = urlParams.get('status');
     // let activeStatusId = `status_${activeStatus}`;
     let activeStatusId = activeStatus ? `status_${activeStatus}` : 'status_all';
+
+    const activeStatusItem = document.getElementById(activeStatusId);
+    if (activeStatusItem) {
+        activeStatusItem.classList.add('active');
+    } else {
+        console.warn(`Element with ID "${activeStatusId}" not found.`);
+    }
+
+}
+
+
+  function updateGenre() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const activeGenreId = urlParams.get('genres');
 
     if (activeGenreId) {
         const activeItem = document.getElementById(activeGenreId);
@@ -152,18 +165,43 @@ async function genreManga() {
             activeItem.classList.add('active');
         }
     }
+  }
 
-    const activeStatusItem = document.getElementById(activeStatusId);
-    if (activeStatusItem) {
-        activeStatusItem.classList.add('active');
-        console.log(activeStatusItem);
+  function updateStatus() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const activeStatus = urlParams.get('status');
+    const activeStatusId = activeStatus ? `status_${activeStatus}` : 'status_all';
 
-    } else {
-        console.warn(`Element with ID "${activeStatusId}" not found.`);
+    if (activeStatusId) {
+        const activeItem = document.getElementsByClassName(activeStatusId);
+        if (activeItem) {
+            for (let i = 0; i < activeItem.length; i++) {
+                const element = activeItem[i].classList.add('active');
+
+            }
+        }
     }
+  }
 
-}
+  function updateSort() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const activeSort = urlParams.get('sort');
+    const activeSortId = activeSort ? `sort_${activeSort}` : 'sort_latest';
 
-document.addEventListener("DOMContentLoaded", () => {
+    if (activeSortId) {
+        const activeItem = document.getElementsByClassName(activeSortId);
+        if (activeItem) {
+            for (let i = 0; i < activeItem.length; i++) {
+                const element = activeItem[i].classList.add('active');
+
+            }
+        }
+    }
+  }
+
+  // Call the function on page load
+  document.addEventListener("DOMContentLoaded", () => {
     genreManga();
+    updateStatus();
+    updateSort();
   });

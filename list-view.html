@@ -373,7 +373,7 @@
                     </div>
                   </div>
                   <ul class="genres_list_wrapper">
-                    <li class="list_item" id="status_all">
+                    <li class="list_item status_all" id="status_all">
                       <a href="list-view.html?status=all">
                         ALL
                       </a>
@@ -629,7 +629,7 @@
                 <div class="section_content">
 
                   <ul class="genres_list" id="genres_list_container">
-                    <li class="list_item" id="status_all">
+                    <li class="list_item status_all" id="status_all">
                       <a href="list-view.html?status=all">
                         ALL
                       </a>
@@ -721,34 +721,34 @@
                     </li>
                   </ul>
                   <ul class="genres_list border-bottom">
-                    <li class="list_item active">
+                    <li class="list_item sort_latest" id="sort_latest">
                       <a href="/list-view.html?sort=latest">
                         Latest
                       </a>
                     </li>
-                    <li class="list_item">
+                    <li class="list_item sort_newest" id="sort_newest">
                       <a href="/list-view.html?sort=newest">
                         Newest
                       </a>
                     </li>
-                    <li class="list_item">
+                    <li class="list_item sort_top-view" id="sort_top-view">
                       <a href="/list-view.html?sort=top-view">
                         Top View
                       </a>
                     </li>
                   </ul>
                   <ul class="genres_list border-bottom">
-                    <li class="list_item" id="status_all">
+                    <li class="list_item status_all" id="status_all">
                       <a href="list-view.html?status=all">
                         ALL
                       </a>
                     </li>
-                    <li class="list_item" id="status_completed">
+                    <li class="list_item status_completed" id="status_completed">
                       <a href="list-view.html?status=completed">
                         Completed
                       </a>
                     </li>
-                    <li class="list_item" id="status_ongoing">
+                    <li class="list_item status_ongoing" id="status_ongoing">
                       <a href="list-view.html?status=ongoing">
                         Ongoing
                       </a>
@@ -826,7 +826,6 @@ searchManga();
 <script>
 function updateBreadcrumb() {
   const { genres, genrenames, status, page, sort } = getUrlParams();
-  console.log(genres, genrenames, status, page, sort);
 
   const breadcrumbWrapper = document.querySelector('.breadcrumb_wrapper');
 
@@ -980,10 +979,6 @@ updateBreadcrumb();
     // const category = "top";
     // url += `&category=${category}`;
 
-console.log(url);
-
-
-
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to fetch data.");
@@ -997,14 +992,12 @@ console.log(url);
 
 
   function displayMangaList(mangaArray) {
-    console.log(mangaArray);
     const container = document.getElementById("list_view_items");
     container.innerHTML = "";
     mangaArray.forEach(manga => {
       const chapterTitle = manga.chapters?.title ? `: ${manga.chapters.title}` : "";
       totalManga = manga.totalManga;
       totalPages = Math.ceil(totalManga / limit);
-      console.log(manga.totalManga);
 
       // Create a new div element for the manga item
       const mangaItem = document.createElement("div");
@@ -1273,8 +1266,6 @@ console.log(url);
       try {
         const response = await fetch("http://localhost:5000/top-weekly");
         const data = await response.json();
-        console.log(data);
-
         const mangaList = $("#hero-slider");
         mangaList.trigger("destroy.owl.carousel"); // Destroy previous instance
         mangaList.html(""); // Clear previous list
