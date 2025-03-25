@@ -1394,9 +1394,14 @@
     }
   }
 
-  input:checked~label:after,
-  &:not(:checked)>label:hover:after,
-  &:not(:checked)>label:hover~label:after {
+  // input:checked~label:after,
+  // &:not(:checked)>label:hover:after,
+  // &:not(:checked)>label:hover~label:after {
+  //   color: #ffc107;
+  //   border-color: #ffc107;
+  // }
+
+  input:checked~label:after{
     color: #ffc107;
     border-color: #ffc107;
   }

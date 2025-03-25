@@ -64,7 +64,7 @@
               <li>
                 <a href="latest-manga.html" class="nav-link">Latest Manga</a>
               </li>
-              <li><a href="hot-manga.html" class="nav-link">Hot Manga</a></li>
+              <li><a href="top-manga.html" class="nav-link">Hot Manga</a></li>
               <li>
                 <a href="new-manga.html" class="nav-link">Newest Manga</a>
               </li>
@@ -373,8 +373,8 @@
                     </div>
                   </div>
                   <ul class="genres_list_wrapper">
-                    <li class="list_item active">
-                      <a href="javascript:void(0)">
+                    <li class="list_item" id="status_all">
+                      <a href="list-view.html?status=all">
                         ALL
                       </a>
                     </li>
@@ -522,6 +522,17 @@
               <div class="list_view_container">
                 <div class="breadcrumb_wrapper">
                   <div class="breadcrumb_item">
+                    <a href="index.html">Read Manga Online</a>
+                  </div>
+                  <div class="breadcrumb_item">
+                    <a href="javascript:void(0)"><span>Newest</span></a>
+                  </div>
+                  <div class="breadcrumb_item">
+                    <a href="javascript:void(0)"><span>Page <span id="currentPageNumber">1</span></span></a>
+                  </div>
+                </div>
+                <!-- <div class="breadcrumb_wrapper">
+                  <div class="breadcrumb_item">
                     <a href="javascript:void(0)">Read Manga Online</a>
                   </div>
                   <div class="breadcrumb_item">
@@ -536,7 +547,7 @@
                   <div class="breadcrumb_item">
                     <a href="javascript:void(0)"><span>Page 1</span></a>
                   </div>
-                </div>
+                </div> -->
                 <div class="list_view_body" id="list_view_items">
                   <div class="list_view_item">
                     <div class="item_img">
@@ -617,9 +628,9 @@
               <section class="genres_section list_view">
                 <div class="section_content">
 
-                  <ul class="genres_list">
-                    <li class="list_item active">
-                      <a href="javascript:void(0)">
+                  <ul class="genres_list" id="genres_list_container">
+                    <li class="list_item" id="status_all">
+                      <a href="list-view.html?status=all">
                         ALL
                       </a>
                     </li>
@@ -711,34 +722,34 @@
                   </ul>
                   <ul class="genres_list border-bottom">
                     <li class="list_item active">
-                      <a href="javascript:void(0)">
+                      <a href="/list-view.html?sort=latest">
                         Latest
                       </a>
                     </li>
                     <li class="list_item">
-                      <a href="javascript:void(0)">
+                      <a href="/list-view.html?sort=newest">
                         Newest
                       </a>
                     </li>
                     <li class="list_item">
-                      <a href="javascript:void(0)">
+                      <a href="/list-view.html?sort=top-view">
                         Top View
                       </a>
                     </li>
                   </ul>
                   <ul class="genres_list border-bottom">
-                    <li class="list_item active">
-                      <a href="javascript:void(0)">
+                    <li class="list_item" id="status_all">
+                      <a href="list-view.html?status=all">
                         ALL
                       </a>
                     </li>
-                    <li class="list_item">
-                      <a href="javascript:void(0)">
+                    <li class="list_item" id="status_completed">
+                      <a href="list-view.html?status=completed">
                         Completed
                       </a>
                     </li>
-                    <li class="list_item">
-                      <a href="javascript:void(0)">
+                    <li class="list_item" id="status_ongoing">
+                      <a href="list-view.html?status=ongoing">
                         Ongoing
                       </a>
                     </li>
@@ -778,23 +789,484 @@
     </footer>
   </div>
 
-  <div class="card text-start">
-    <img class="card-img-top" src="holder.js/100px180/" alt="Title" />
-    <div class="card-body">
-      <input type="text" id="search" placeholder="Search Manga">
-  <button onclick="searchManga()">Search</button>
-
-  <div id="results"></div>
-    </div>
-  </div>
-
   <script src="vendors/js/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/owl.carousel.min.js"></script>
   <script src="vendors/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/scripts.js"></script>
 
+<!--
+  <script>
+    // Function to get URL parameters
+    function getUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        genres: params.get("genres") || "", // Get genres from URL
+        page: parseInt(params.get("page")) || 1 // Get current page from URL
+      };
+    }
+
+const BASE_URL = "http://localhost:5000";
+
+async function searchManga() {
+  getUrlParams();
+      const { genres, page } = getUrlParams();
+      console.log(genres, page,'test');
+      const limit = 10;
+      const offset = 0;
+  // const query = document.getElementById("search").value;
+  const response = await fetch(`${BASE_URL}/list-mangas?offset=${offset}&limit=${limit}&genres=${genres}`);
+  const data = await response.json();
+  console.log(data[1].title,response);
+
+}
+searchManga();
+  </script> -->
 
 
+<script>
+function updateBreadcrumb() {
+  const { genres, genrenames, status, page, sort } = getUrlParams();
+  console.log(genres, genrenames, status, page, sort);
+
+  const breadcrumbWrapper = document.querySelector('.breadcrumb_wrapper');
+
+  if (!breadcrumbWrapper) {
+    console.error("Breadcrumb wrapper not found!");
+    return; // Prevent further errors
+  }
+
+  // Clear existing breadcrumb except the "Read Manga Online" link
+  breadcrumbWrapper.innerHTML = `
+    <div class="breadcrumb_item">
+      <a href="index.html">Read Manga Online</a>
+    </div>
+  `;
+
+  // Add Sort if available and valid
+  if (sort) {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("sort")) {
+      breadcrumbWrapper.innerHTML += `
+      <div class="breadcrumb_item">
+        <a href="javascript:void(0)"><span>${sort.charAt(0).toUpperCase() + sort.slice(1)}</span></a>
+      </div>
+    `;
+    }
+  }
+
+  // Add Genres if available
+  if (genrenames) {
+    breadcrumbWrapper.innerHTML += `
+      <div class="breadcrumb_item">
+        <a href="javascript:void(0)">Geners : <span>${genrenames.split(',')
+          .map(g => g.trim().charAt(0).toUpperCase() + g.trim().slice(1))
+          .join(', ')}</span></a>
+      </div>
+    `;
+  }
+
+  // Add Status if it's not "all"
+  if (status) {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("status")) {
+      breadcrumbWrapper.innerHTML += `
+      <div class="breadcrumb_item">
+        <a href="javascript:void(0)">Status : <span>${status.charAt(0).toUpperCase() + status.slice(1)}</span></a>
+      </div>
+    `;
+    }
+
+
+  }
+
+  // Add Current Page
+    breadcrumbWrapper.innerHTML += `
+      <div class="breadcrumb_item">
+        <a href="javascript:void(0)"><span>Page <span id="currentPageNumber">${page}</span></span></a>
+      </div>
+    `;
+}
+
+// Call the function on page load
+updateBreadcrumb();
+
+
+
+  // async function fetchNewMangas(page = 1) {
+  //   getUrlParams();
+  //       const { genres, pages, status } = getUrlParams();
+  //       console.log(genres, pages, status);
+
+  //     const offset = (page - 1) * limit;
+  //     const response = await fetch(`${BASE_URL}/list-mangas?offset=${offset}&limit=${limit}&genres=${genres}`);
+  //     const mangaList = await response.json();
+  //     displayMangaList(mangaList);
+  //     updatePaginationUI(page);
+  // }
+
+  function formatTime(timestamp) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    // 1. Format as "1 hour ago" or "2 days ago"
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds} seconds ago`;
+    } else if (diffInSeconds < 3600) {
+      return `${Math.floor(diffInSeconds / 60)} min ago`;
+    } else if (diffInSeconds < 86400) {
+      return `${Math.floor(diffInSeconds / 3600)} hour ago`;
+    } else if (diffInSeconds < 604800) {
+      return `${Math.floor(diffInSeconds / 86400)} day ago`;
+    }
+
+    // 2. Format as "May 14, 2024"
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
+
+    function getUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        genres: params.get("genres") || "",
+        genrenames: params.get("genrenames") || "",
+        status: params.get("status") || "all", // Default to 'all'
+        page: parseInt(params.get("page")) || 1,
+        sort: params.get("sort") || "latest", // Default to 'latest'
+      };
+    }
+
+
+  const BASE_URL = "http://localhost:5000";
+  const limit = 10;  // Number of manga per page
+  let totalManga = 47276;  // Total manga count (you can dynamically fetch this)
+  let totalPages = Math.ceil(totalManga / limit);
+  let currentPage = 1;
+
+  function showLoader() {
+    document.getElementById("loader").style.display = "flex";
+  }
+
+  function hideLoader() {
+    document.getElementById("loader").style.display = "none";
+  }
+
+
+  async function fetchNewMangas(page = 1) {
+    const { genres, genrenames, status, sort } = getUrlParams();
+    const offset = (page - 1) * limit;
+
+    let url = `${BASE_URL}/list-mangas?`;
+
+    if (sort) {
+      url += `sort=${sort}`;
+    }
+
+      if (offset) {
+        url += `&offset=${offset}`;
+      }
+
+      if (limit) {
+        url += `&limit=${limit}`;
+      }
+
+    if (status && status !== "all") {
+      url += `&status=${status}`;
+    }
+
+    if (genres) {
+      url += `&genres=${genres}`;
+    }
+    // const category = "top";
+    // url += `&category=${category}`;
+
+console.log(url);
+
+
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Failed to fetch data.");
+      const mangaList = await response.json();
+      displayMangaList(mangaList);
+      updatePaginationUI(page);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+
+  function displayMangaList(mangaArray) {
+    console.log(mangaArray);
+    const container = document.getElementById("list_view_items");
+    container.innerHTML = "";
+    mangaArray.forEach(manga => {
+      const chapterTitle = manga.chapters?.title ? `: ${manga.chapters.title}` : "";
+      totalManga = manga.totalManga;
+      totalPages = Math.ceil(totalManga / limit);
+      console.log(manga.totalManga);
+
+      // Create a new div element for the manga item
+      const mangaItem = document.createElement("div");
+      mangaItem.classList.add("list_view_item");
+      mangaItem.innerHTML = `
+    <div class="item_img">
+  <img src="${manga.cover}" class="img-fluid" alt=""  referrerpolicy="no-referrer">
+  <span class="badge ${manga.popularityTag}_badge">${manga.popularityTag}</span>
+  <span class="rating">
+          <span class="content">${manga.rating}</span>
+          <span class="icon"><i class="fas fa-star"></i></span>
+        </span>
+</div>
+<div class="item_content">
+  <h2 class="item_title">
+    <a href="detail-view.html?id=${manga.id}">${manga.title}</a>
+  </h2>
+  <div class="item_chapter">
+    <a href="javascript:void(0)">Chapter ${manga.chapters?.chapter || "N/A"}${chapterTitle}</a>
+  </div>
+  <div class="item_info_wrapper">
+    <div class="info_item item_views">
+      <span class="icon"><i class="fas fa-eye"></i></span>
+      <span>${manga.views || "N/A"}</span>
+    </div>
+    <div class="info_item item_updated_date">
+      <span class="icon"><i class="fas fa-calendar"></i></span>
+      <span>${formatTime(manga.lastUpdated)}</span>
+    </div>
+    <div class="info_item item_author">
+      <span class="icon"><i class="fas fa-user"></i></span>
+      <span>${manga.author}</span>
+    </div>
+  </div>
+  <div class="item_discription">
+    ${manga.description || "No description available."}
+  </div>
+  <div class="item_btn_wrapper">
+    <a href="javascript:void(0)" class="item_read_more_btn">Read More</a>
+  </div>
+</div>
+`;
+
+      // Append the new item **at the end** of the container
+      container.appendChild(mangaItem);
+    });
+    // document.getElementById("pageInfo").innerText = `Page ${currentPage}`;
+  }
+
+  // ** Update Pagination UI **
+  function updatePaginationUI(page) {
+    currentPage = page;
+    const currentPageNumberWrapprer = document.querySelector("#currentPageNumber");
+    currentPageNumberWrapprer.innerHTML = `${currentPage}`;
+    const totalMangasContainer = document.querySelector(".total-page");
+    totalMangasContainer.innerHTML = `TOTAL: ${totalManga}`;
+    const pagesWrapper = document.querySelector(".pages_wrapper");
+    pagesWrapper.innerHTML = `
+      <div class="first-page page-item ${page === 1 ? 'disabled' : ''}">
+          <a href="javascript:void(0)" data-page="1">FIRST(1)</a>
+      </div>
+  `;
+
+    // Display up to 3 pages before and after current
+    let startPage = Math.max(1, page - 2);
+    let endPage = Math.min(totalPages, page + 2);
+
+    for (let i = startPage; i <= endPage; i++) {
+      pagesWrapper.innerHTML += `
+          <div class="page-item ${i === page ? 'active' : ''}">
+              <a href="javascript:void(0)" data-page="${i}">${i}</a>
+          </div>
+      `;
+    }
+
+    pagesWrapper.innerHTML += `
+      <div class="last-page page-item ${page === totalPages ? 'disabled' : ''}">
+          <a href="javascript:void(0)" data-page="${totalPages}">LAST (${totalPages})</a>
+      </div>
+  `;
+
+    // Attach event listeners to new pagination items
+    document.querySelectorAll(".page-item a").forEach(item => {
+      item.addEventListener("click", (e) => {
+        let selectedPage = parseInt(e.target.dataset.page);
+        if (!isNaN(selectedPage) && selectedPage !== currentPage) {
+          fetchNewMangas(selectedPage);
+        }
+      });
+    });
+  }
+
+  // ** Initial Load **
+  fetchNewMangas();
+</script>
+<!--
+<script>
+  function formatTime(timestamp) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    // 1. Format as "1 hour ago" or "2 days ago"
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds} seconds ago`;
+    } else if (diffInSeconds < 3600) {
+      return `${Math.floor(diffInSeconds / 60)} min ago`;
+    } else if (diffInSeconds < 86400) {
+      return `${Math.floor(diffInSeconds / 3600)} hour ago`;
+    } else if (diffInSeconds < 604800) {
+      return `${Math.floor(diffInSeconds / 86400)} day ago`;
+    }
+
+    // 2. Format as "May 14, 2024"
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
+
+  function getUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        genres: params.get("genres") || "", // Get genres from URL
+        status: params.get("status") || "", // Get genres from URL
+        page: parseInt(params.get("page")) || 1 // Get current page from URL
+      };
+    }
+
+  const BASE_URL = "http://localhost:5000";
+  const limit = 10;  // Number of manga per page
+  let totalManga = 47276;  // Total manga count (you can dynamically fetch this)
+  let totalPages = Math.ceil(totalManga / limit);
+  let currentPage = 1;
+
+  function showLoader() {
+    document.getElementById("loader").style.display = "flex";
+  }
+
+  function hideLoader() {
+    document.getElementById("loader").style.display = "none";
+  }
+
+
+  async function fetchNewMangas(page = 1) {
+
+  getUrlParams();
+      const { genres, pages, status } = getUrlParams();
+      console.log(genres, pages, status);
+
+    // showLoader();
+    const offset = (page - 1) * limit;
+    const response = await fetch(`${BASE_URL}/list-mangas?offset=${offset}&limit=${limit}&genres=${genres}`);
+    // const response = await fetch(`${BASE_URL}/status-mangas?offset=${offset}&limit=${limit}&genres=${genres}&status=${status}`);
+    const mangaList = await response.json();
+    displayMangaList(mangaList);
+    updatePaginationUI(page);
+    // hideLoader();
+  }
+
+  function displayMangaList(mangaArray) {
+    console.log(mangaArray);
+    const container = document.getElementById("list_view_items");
+    container.innerHTML = "";
+    mangaArray.forEach(manga => {
+      const chapterTitle = manga.chapters?.title ? `: ${manga.chapters.title}` : "";
+      totalManga = manga.totalManga;
+      totalPages = Math.ceil(totalManga / limit);
+      console.log(manga.totalManga);
+
+      // Create a new div element for the manga item
+      const mangaItem = document.createElement("div");
+      mangaItem.classList.add("list_view_item");
+      mangaItem.innerHTML = `
+    <div class="item_img">
+  <img src="${manga.cover}" class="img-fluid" alt=""  referrerpolicy="no-referrer">
+  <span class="badge ${manga.popularityTag}_badge">${manga.popularityTag}</span>
+  <span class="rating">
+          <span class="content">${manga.rating}</span>
+          <span class="icon"><i class="fas fa-star"></i></span>
+        </span>
+</div>
+<div class="item_content">
+  <h2 class="item_title">
+    <a href="detail-view.html?id=${manga.id}">${manga.title}</a>
+  </h2>
+  <div class="item_chapter">
+    <a href="javascript:void(0)">Chapter ${manga.chapters?.chapter || "N/A"}${chapterTitle}</a>
+  </div>
+  <div class="item_info_wrapper">
+    <div class="info_item item_views">
+      <span class="icon"><i class="fas fa-eye"></i></span>
+      <span>${manga.views || "N/A"}</span>
+    </div>
+    <div class="info_item item_updated_date">
+      <span class="icon"><i class="fas fa-calendar"></i></span>
+      <span>${formatTime(manga.lastUpdated)}</span>
+    </div>
+    <div class="info_item item_author">
+      <span class="icon"><i class="fas fa-user"></i></span>
+      <span>${manga.author}</span>
+    </div>
+  </div>
+  <div class="item_discription">
+    ${manga.description || "No description available."}
+  </div>
+  <div class="item_btn_wrapper">
+    <a href="javascript:void(0)" class="item_read_more_btn">Read More</a>
+  </div>
+</div>
+`;
+
+      // Append the new item **at the end** of the container
+      container.appendChild(mangaItem);
+    });
+    // document.getElementById("pageInfo").innerText = `Page ${currentPage}`;
+  }
+
+  // ** Update Pagination UI **
+  function updatePaginationUI(page) {
+    currentPage = page;
+    const currentPageNumberWrapprer = document.querySelector("#currentPageNumber");
+    currentPageNumberWrapprer.innerHTML = `${currentPage}`;
+    const totalMangasContainer = document.querySelector(".total-page");
+    totalMangasContainer.innerHTML = `TOTAL: ${totalManga}`;
+    const pagesWrapper = document.querySelector(".pages_wrapper");
+    pagesWrapper.innerHTML = `
+      <div class="first-page page-item ${page === 1 ? 'disabled' : ''}">
+          <a href="javascript:void(0)" data-page="1">FIRST(1)</a>
+      </div>
+  `;
+
+    // Display up to 3 pages before and after current
+    let startPage = Math.max(1, page - 2);
+    let endPage = Math.min(totalPages, page + 2);
+
+    for (let i = startPage; i <= endPage; i++) {
+      pagesWrapper.innerHTML += `
+          <div class="page-item ${i === page ? 'active' : ''}">
+              <a href="javascript:void(0)" data-page="${i}">${i}</a>
+          </div>
+      `;
+    }
+
+    pagesWrapper.innerHTML += `
+      <div class="last-page page-item ${page === totalPages ? 'disabled' : ''}">
+          <a href="javascript:void(0)" data-page="${totalPages}">LAST (${totalPages})</a>
+      </div>
+  `;
+
+    // Attach event listeners to new pagination items
+    document.querySelectorAll(".page-item a").forEach(item => {
+      item.addEventListener("click", (e) => {
+        let selectedPage = parseInt(e.target.dataset.page);
+        if (!isNaN(selectedPage) && selectedPage !== currentPage) {
+          fetchNewMangas(selectedPage);
+        }
+      });
+    });
+  }
+
+  // ** Initial Load **
+  fetchNewMangas();
+</script> -->
 
   <script>
     async function fetchTopWeeklyManga() {
@@ -866,17 +1338,6 @@
     fetchTopWeeklyManga();
   </script>
 
-
-  <script>
-      const BASE_URL = "http://localhost:5000";
-
-      async function searchManga() {
-          const query = document.getElementById("search").value;
-          const response = await fetch(`${BASE_URL}/search-manga?title=${query}`);
-          const data = await response.json();
-          document.getElementById("results").innerHTML = JSON.stringify(data.data);
-      }
-  </script>
 
 </body>
 

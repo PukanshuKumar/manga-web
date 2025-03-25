@@ -10149,7 +10149,7 @@ body.dark-theme {
   color: #cccccc;
   padding-left: 5px;
 }
-.rating input:checked ~ label:after, .rating:not(:checked) > label:hover:after, .rating:not(:checked) > label:hover ~ label:after {
+.rating input:checked ~ label:after {
   color: #ffc107;
   border-color: #ffc107;
 }

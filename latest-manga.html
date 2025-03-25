@@ -4,13 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home</title>
+  <title>List Page</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
 </head>
 
 <body>
+  <div id="loader" style="display: none;">Loading...</div>
   <div class="d-flex flex-column h-m-100">
     <header class="mt-4">
       <div class="container">
@@ -333,239 +334,283 @@
       <section class="main_section">
         <div class="container">
           <div class="row">
-            <div class="col-md-8">
-              <div class="detail_panel_wrapper">
-                <div class="detail_panel_header">
-                  <div class="breadcrumb_wrapper">
-                    <div class="breadcrumb_item">
-                      <a href="javascript:void(0)">Read Manga Online</a>
-                    </div>
-                    <div class="breadcrumb_item">
-                      <a href="javascript:void(0)">The Possessed Genius’ Gaming Stream</a>
-                    </div>
-                  </div>
+            <div class="col-md-12">
+              <div class="filter_wrapper">
+                <div class="filter_header">
+                  <h2 class="filter_title">FILTER (ADVANCED SEARCH)</h2>
+                  <a href="javascript:void(0)" class="filter_btn stretched-link">
+                    <span class="icon"><i class="fas fa-plus"></i></span>
+                    <span class="filter_text">Show</span>
+                  </a>
                 </div>
-                <div class="detail_panel_body">
-                  <div class="detail_panel_content">
-                    <div class="item_img_wrapper">
-                      <div class="item_img">
-                        <img src="assets/images/dummy.jpg" id="manga-cover" class="img-fluid"
-                          referrerpolicy="no-referrer" alt="">
-                        <!-- <span class="badge hot_badge">HOT</span> -->
-                        <!-- <span class="badge new_badge">new</span> -->
-                        <span class="badge ss_badge" id="manga-popularityTag">SS</span>
-                        <span class="rating">
-                          <span class="content" id="manga-rating">4.6</span>
-                          <span class="icon"><i class="fas fa-star"></i></span>
-                        </span>
-                      </div>
-                      <a href="javscript:void(0)" class="btn_read">Read Chapter List</a>
+                <div class="filter_body d-none" id="filter_body">
+                  <h5>Genres:</h5>
+                  <div class="genre_wrapper">
+                    <div class="genre_info_btn_wrapper">
+                      <a href="javscript:void(0)" class="add_genre genre_info_btn">
+                        <span class="icon"><i class="fas fa-plus-circle"></i></span>
+                        Include Genre
+                      </a>
+                      <a href="javscript:void(0)" class="remove_genre genre_info_btn">
+                        <span class="icon"><i class="fas fa-minus-circle"></i></span>
+                        Include Genre
+                      </a>
+                      <a href="javascript:void(0)" id="info_genre" class="info_genre genre_info_btn"
+                        onclick="HideGenresInfo()">
+                        <span class="icon"><i class="fas fa-question-circle"></i></span>
+                      </a>
                     </div>
-                    <div class="item_content">
-                      <h2 class="item_title">
-                        <a href="javascript:void(0)" id="manga-title">Reincarnated Devil’s Plan For Raising The
-                          Strongest Hero</a>
-                      </h2>
-                      <ul class="detail_list">
-                        <li class="detail_item">
-                          <div class="detail_item_label">
-                            <span class="label_icon"><i class="fas fa-filter"></i></span>
-                            <h6 class="label_text">Alternative:</h6>
-                          </div>
-                          <div class="detail_item_content">
-                            <h6 id="manga-alternative-titles">
-                              A Tale of the Great Saint ; Tensei Shita Daiseijo wa, Seijo de Aru Koto wo Hitakakusu: A
-                              Tale of the Great Saint ; Tenseishita Daiseijo wa, Seijo Dearu Koto wo Hitakakusu ;
-                              転生した大聖女は、聖女であることをひた隠す ; 転生した大聖女は、聖女であることをひた隠す A Tale of the Great Saint
-                            </h6>
-                          </div>
-                        </li>
-                        <li class="detail_item">
-                          <div class="detail_item_label">
-                            <span class="label_icon"><i class="fas fa-user"></i></span>
-                            <h6 class="label_text">Author(s) :</h6>
-                          </div>
-                          <div class="detail_item_content" id="manga-author">
-                            <a href="javascript:void(0)">Mahito Aobe</a>
-                            <h6>-</h6>
-                            <a href="javascript:void(0)">Touya (十夜)</a>
-                          </div>
-                        </li>
-                        <li class="detail_item">
-                          <div class="detail_item_label">
-                            <span class="label_icon"><i class="fas fa-ellipsis-h"></i></span>
-                            <h6 class="label_text">Status :</h6>
-                          </div>
-                          <div class="detail_item_content">
-                            <h6 id="manga-status">Ongoing</h6>
-                          </div>
-                        </li>
-                        <li class="detail_item">
-                          <div class="detail_item_label">
-                            <span class="label_icon"><i class="fas fa-list"></i></span>
-                            <h6 class="label_text">Genres </h6>
-                          </div>
-                          <div class="detail_item_content" id="manga-genres">
-                            <a href="javascript:void(0)">Action</a>
-                            <h6>-</h6>
-                            <a href="javascript:void(0)">Fantasy</a>
-                          </div>
-                        </li>
-                        <li class="detail_item">
-                          <div class="detail_item_label">
-                            <span class="label_icon"><i class="fas fa-clock"></i></span>
-                            <h6 class="label_text">Updated:</h6>
-                          </div>
-                          <div class="detail_item_content">
-                            <h6 id="manga-last-update">Feb 20,2025 - 08:00 AM</h6>
-                          </div>
-                        </li>
-                        <li class="detail_item">
-                          <div class="detail_item_label">
-                            <span class="label_icon"><i class="far fa-eye"></i></span>
-                            <h6 class="label_text">Views:</h6>
-                          </div>
-                          <div class="detail_item_content">
-                            <h6 id="manga-views">7.4K</h6>
-                          </div>
-                        </li>
-                        <li class="detail_item">
-                          <div class="detail_item_label">
-                            <span class="label_icon"><i class="fas fa-plus"></i></span>
-                            <h6 class="label_text">Rating:</h6>
-                          </div>
-                          <div class="detail_item_content">
-                            <div class="rating">
-                              <input type="radio" id="star5" name="rating" value="5" disabled><label for="star5"></label>
-                              <input type="radio" id="star4" name="rating" value="4" disabled><label for="star4"></label>
-                              <input type="radio" id="star3" name="rating" value="3" disabled><label for="star3"></label>
-                              <input type="radio" id="star2" name="rating" value="2" disabled><label for="star2"></label>
-                              <input type="radio" id="star1" name="rating" value="1" disabled><label for="star1"></label>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-
-                      <div class="votes_wrap ">
-                        <em>MangaNato.com rate : <span id="manga-rating-2">4.7</span>/ 5 - 1702 votes</em>
-                      </div>
-
-                      <p class="mb-0">
-                        <img src="assets/images/bookmark.png" alt="bookmark" class="img-fluid bookmark_img">
-                      </p>
-
-                      <div class="d-flex gap-2">
-                        <a href="javascript:void(0)"
-                          class="btn btn-primary btn-sm d-flex gap-1 align-items-center text-white"><i
-                            class="fas fa-thumbs-up"></i> Likes <span id="manga-likes">3</span></a>
-                        <a href="javascript:void(0)"
-                          class="btn btn-primary btn-sm d-flex gap-1 align-items-center text-white">Share</a>
-                      </div>
+                    <div class="genre_info d-none" id="genre_info">
+                      <h6>
+                        <span class="add_genre icon"><i class="fas fa-plus-circle"></i></span>
+                        <b>Include genre:</b> If you include Historical , it will filter only mangas with Historical
+                        genre. (You can include multiple genres).
+                      </h6>
+                      <h6>
+                        <span class="remove_genre icon"><i class="fas fa-minus-circle"></i></span>
+                        <b>Exclude genre:</b> If you include Comedy, Romance but exclude Ecchi, it will filter all
+                        mangas with Comedy and Romance but Ecchi.
+                      </h6>
                     </div>
                   </div>
-                  <div class="detail_item_discription">
-                    <h6>Description :</h6>
-                    <div class="discription_content" id="manga-description">
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia earum accusamus consectetur
-                      neque ut eius, voluptatum reiciendis inventore eaque, cupiditate sed laborum natus distinctio quae
-                      nemo, possimus similique ad repellendus!
-                      Illum non molestias, consectetur cum provident reprehenderit perspiciatis minus harum tenetur
-                      ullam beatae necessitatibus laborum reiciendis distinctio tempora nostrum, animi ad totam
-                      voluptate accusantium! Similique natus illo aliquam tenetur est.
-                      Aspernatur, at ex tenetur aperiam voluptatem pariatur, officia minus ad nam dolor quia perferendis
-                      labore aut quasi omnis deserunt voluptatum id obcaecati suscipit. Nostrum, dolores repellat.
-                      Provident suscipit deserunt molestiae!
-                      Ullam accusamus placeat sapiente architecto eligendi eveniet adipisci dolore aliquam veniam
-                      provident eum assumenda odit repudiandae, et consequuntur reiciendis maxime, maiores porro
-                      deleniti? Velit impedit ipsum rerum temporibus optio aspernatur?
-                    </div>
-                  </div>
-                  <div class="detail_item_btn_wrapper">
-                    <a href="javascript:void(0)" class="item_read_more_btn">
-                      SHOW MORE <span class="ms-1"><i class="fas fa-arrow-down"></i></span>
-                    </a>
-                  </div>
-                </div>
-                <div class="panel_chapter_list">
-                  <ul class="chapter_list_header">
-                    <li>
-                      <span class="chapter-name">Chapter name</span>
-                      <span class="chapter-view">View</span>
-                      <span class="chapter-time">Uploaded</span>
-                    </li>
-                  </ul>
-                  <ul class="chapter_list_body" id="chapter_list_container">
-                    <li>
-                      <a href="javascript:void(0)" class="chapter-name">
-                        Chapter 35
-                      </a>
-                      <span class="chapter-view">4</span>
-                      <span class="chapter-time">Feb 20,2025</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <section class="most_popular_section">
-                <div class="section_heading">
-                  <div class="heading">
-                    <h1>MOST POPULAR MANGA</h1>
-                  </div>
-                </div>
-                <div class="section_content">
-                  <ul class="most_popular_list" id="most_popular_list">
-                    <li class="list_item">
-                      <a href="javascript:void(0)">
-                        <span class="list_item_title">The Forsaken Saintess And Her Foodie Roadtrip In Another
-                          World</span> -
-                        <span class="list_item_title">Chapter 17.2</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </section>
-              <section class="genres_section">
-                <div class="section_heading">
-                  <div class="heading">
-                    <h1>Manga by Genres</h1>
-                  </div>
-                </div>
-                <div class="section_content">
-                  <ul class="genres_list border-bottom">
-                    <li class="list_item active">
-                      <a href="/list-view.html?sort=latest">
-                        Latest
-                      </a>
-                    </li>
-                    <li class="list_item">
-                      <a href="/list-view.html?sort=newest">
-                        Newest
-                      </a>
-                    </li>
-                    <li class="list_item">
-                      <a href="/list-view.html?sort=top-view">
-                        Top View
-                      </a>
-                    </li>
-                  </ul>
-                  <ul class="genres_list border-bottom">
+                  <ul class="genres_list_wrapper">
                     <li class="list_item" id="status_all">
                       <a href="list-view.html?status=all">
                         ALL
                       </a>
                     </li>
-                    <li class="list_item" id="status_completed">
-                      <a href="list-view.html?status=completed">
-                        Completed
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Action
                       </a>
                     </li>
-                    <li class="list_item" id="status_ongoing">
-                      <a href="list-view.html?status=ongoing">
-                        Ongoing
+                    <li class="list_item inactive">
+                      <a href="javascript:void(0)">
+                        Doujinshi
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Drama
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Fantasy
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Historical
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Horror
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Isekai
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Manhua
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Manhwa
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Martial arts
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Mecha
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Medical
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Mystery
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Psychological
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Romance
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        School life
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="javascript:void(0)">
+                        Sci fi
                       </a>
                     </li>
                   </ul>
+
+                  <div class="row mt-2">
+                    <div class="col-md-3">
+                      <div class="d-flex align-items-center gap-2">
+                        <label for="" class="form-label fw-bold text-nowrap small">Order By:</label>
+                        <select class="form-select">
+                          <option selected>Latest Updated</option>
+                          <option value="">Top View</option>
+                          <option value="">New Manga</option>
+                          <option value="">A - Z</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="d-flex align-items-center gap-2">
+                        <label for="" class="form-label fw-bold text-nowrap small">Status:</label>
+                        <select class="form-select">
+                          <option selected>Ongoing and Completed</option>
+                          <option value="">Ongoing</option>
+                          <option value="">Completed</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-2">
+                    <div class="col-md-3">
+                      <div class="d-flex align-items-center gap-2">
+                        <label for="" class="form-label fw-bold text-nowrap small">Keywords:</label>
+                        <select class="form-select">
+                          <option selected>Alternative Name</option>
+                          <option value="">Everything</option>
+                          <option value="">Author</option>
+                          <option value="">Name title</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-2">
+                    <div class="col-md-12">
+                      <input type="text" placeholder="Search Manga" class="form-control">
+                      <button class="search_btn">Search</button>
+                    </div>
+                  </div>
+                  <div class="row mt-2 mb-2">
+                    <div class="col-md-12">
+                      <label for="" class="form-label fw-bold text-nowrap small">URL to load my filter anywhere(only
+                        copy):</label>
+                      <input type="text" placeholder="Search Manga" class="form-control"
+                        value="https://manganato.com/advanced_search?s=all&page=1" readonly>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list_view_container">
+                <div class="breadcrumb_wrapper">
+                  <div class="breadcrumb_item">
+                    <a href="index.html">Read Manga Online</a>
+                  </div>
+                  <div class="breadcrumb_item">
+                    <a href="javascript:void(0)"><span>latest</span></a>
+                  </div>
+                  <div class="breadcrumb_item">
+                    <a href="javascript:void(0)"><span>Page <span id="currentPageNumber">1</span></span></a>
+                  </div>
+                </div>
+                <div class="list_view_body" id="list_view_items">
+                  <div class="list_view_item">
+                    <div class="item_img">
+                      <img src="assets/images/dummy.jpg" class="img-fluid" alt="">
+                      <!-- <span class="badge hot_badge">HOT</span> -->
+                      <!-- <span class="badge new_badge">new</span> -->
+                      <span class="badge best_badge">SS</span>
+                      <span class="rating">
+                        <span class="content">4.6</span>
+                        <span class="icon"><i class="fas fa-star"></i></span>
+                      </span>
+                    </div>
+                    <div class="item_content">
+                      <h2 class="item_title">
+                        <a href="javascript:void(0)">Reincarnated Devil’s Plan For Raising The Strongest Hero</a>
+                      </h2>
+                      <div class="item_chapter">
+                        <a href="javascript:void(0)">Chapter 20</a>
+                      </div>
+                      <div class="item_info_wrapper">
+                        <div class="info_item item_views">
+                          <span class="icon"><i class="fas fa-eye"></i></span>
+                          <span>535.8k</span>
+                        </div>
+                        <div class="info_item item_updated_date">
+                          <span class="icon"><i class="fas fa-calendar"></i></span>
+                          <span>Feb 14,25</span>
+                        </div>
+                        <div class="info_item item_author">
+                          <span class="icon"><i class="fas fa-user"></i></span>
+                          <span>Mad Snail</span>
+                        </div>
+                      </div>
+                      <div class="item_discription">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia earum accusamus consectetur
+                        neque ut eius, voluptatum reiciendis inventore eaque, cupiditate sed laborum natus distinctio
+                        quae nemo, possimus similique ad repellendus!
+                        Illum non molestias, consectetur cum provident reprehenderit perspiciatis minus harum tenetur
+                        ullam beatae necessitatibus laborum reiciendis distinctio tempora nostrum, animi ad totam
+                        voluptate accusantium! Similique natus illo aliquam tenetur est.
+                        Aspernatur, at ex tenetur aperiam voluptatem pariatur, officia minus ad nam dolor quia
+                        perferendis labore aut quasi omnis deserunt voluptatum id obcaecati suscipit. Nostrum, dolores
+                        repellat. Provident suscipit deserunt molestiae!
+                        Ullam accusamus placeat sapiente architecto eligendi eveniet adipisci dolore aliquam veniam
+                        provident eum assumenda odit repudiandae, et consequuntur reiciendis maxime, maiores porro
+                        deleniti? Velit impedit ipsum rerum temporibus optio aspernatur?
+                      </div>
+                      <div class="item_btn_wrapper">
+                        <a href="javascript:void(0)" class="item_read_more_btn">Read More</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pagination_wrapper">
+                  <div class="total-page page-item">TOTAL: 47,276</div>
+                  <div class="pages_wrapper">
+                    <div class="first-page page-item">
+                      <a href="javascript:void(0)">FIRST(1)</a>
+                    </div>
+                    <div class="page-item active">
+                      <a href="javascript:void(0)">1</a>
+                    </div>
+                    <div class="page-item">
+                      <a href="javascript:void(0)">2</a>
+                    </div>
+                    <div class="page-item">
+                      <a href="javascript:void(0)">3</a>
+                    </div>
+                    <div class="last-page page-item">
+                      <a href="javascript:void(0)">LAST(1970)</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <section class="genres_section list_view">
+                <div class="section_content">
+
                   <ul class="genres_list"  id="genres_list_container">
                     <li class="list_item" id="status_all">
                       <a href="list-view.html?status=all">
@@ -658,6 +703,40 @@
                       </a>
                     </li>
                   </ul>
+                  <ul class="genres_list border-bottom">
+                    <li class="list_item active">
+                      <a href="/list-view.html?sort=latest">
+                        Latest
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="/list-view.html?sort=newest">
+                        Newest
+                      </a>
+                    </li>
+                    <li class="list_item">
+                      <a href="/list-view.html?sort=top-view">
+                        Top View
+                      </a>
+                    </li>
+                  </ul>
+                  <ul class="genres_list border-bottom">
+                    <li class="list_item" id="status_all">
+                      <a href="list-view.html?status=all">
+                        ALL
+                      </a>
+                    </li>
+                    <li class="list_item" id="status_completed">
+                      <a href="list-view.html?status=completed">
+                        Completed
+                      </a>
+                    </li>
+                    <li class="list_item" id="status_ongoing">
+                      <a href="list-view.html?status=ongoing">
+                        Ongoing
+                      </a>
+                    </li>
+                  </ul>
                 </div>
               </section>
             </div>
@@ -693,49 +772,12 @@
     </footer>
   </div>
 
-
-
   <script src="vendors/js/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/owl.carousel.min.js"></script>
   <script src="vendors/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/scripts.js"></script>
 
 
-  <script>
-    async function fetchtopManga() {
-      try {
-        const response = await fetch("http://localhost:5000/top-all-time");
-        const data = await response.json();
-        console.log(data);
-
-        const mangaList = document.getElementById("most_popular_list");
-        mangaList.innerHTML = ""; // Clear previous list
-
-        data.forEach(manga => {
-          const mangaItem = document.createElement("li");
-          mangaItem.classList.add("list_item");
-          const chapterTitle = manga.chapters?.title ? `: ${manga.chapters.title}` : "";
-          mangaItem.innerHTML = `
-                <a href="detail-view.html?id=${manga.id}">
-                        <span class="list_item_title">
-                          ${manga.title || "No Title"}
-                        </span> -
-                        <span class="list_item_title">
-                          Chapter ${manga.chapters?.chapter || "N/A"}${chapterTitle}
-                        </span>
-                      </a>
-            `;
-
-          mangaList.appendChild(mangaItem);
-        });
-      } catch (error) {
-        console.error("Error fetching new manga:", error);
-      }
-    }
-
-    fetchtopManga();
-
-  </script>
 
 
   <script>
@@ -807,148 +849,171 @@
     }
     fetchTopWeeklyManga();
   </script>
-
-
-  <script>
-    const BASE_URL = "http://localhost:5000";
-
-    function setMangaRating(mangaRating) {
-      const roundedRating = Math.round(mangaRating); // Round to nearest whole number
-      const selectedStar = document.querySelector(`input[name="rating"][value="${roundedRating}"]`);
-      if (selectedStar) {
-        selectedStar.checked = true; // Mark the correct star as checked
-      }
-    }
-
-    // 📌 Function to Format Date
-    function formatDate(timestamp) {
-      const date = new Date(timestamp);
-      if (isNaN(date.getTime())) return "N/A"; // Handle invalid date
-      const options = { year: 'numeric', month: 'short', day: 'numeric'};
-      // const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-      return date.toLocaleDateString('en-US', options);
-    }
-
-    // 📌 Fetch Manga Details
-    async function fetchMangaDetails() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const mangaId = urlParams.get("id");
-
-      if (!mangaId) {
-        document.getElementById("manga-details").innerHTML = "<h2>Manga not found</h2>";
-        return;
-      }
-
-      try {
-        const response = await fetch(`${BASE_URL}/manga/${mangaId}`);
-        if (!response.ok) throw new Error("Failed to fetch manga data");
-
-        const manga = await response.json();
-
-        document.getElementById("manga-cover").src = manga.cover || "placeholder.jpg";
-        document.getElementById("manga-title").textContent = manga.title || "Unknown Title";
-        const popularityTagElement = document.getElementById("manga-popularityTag");
-
-        // Remove existing badge classes
-        popularityTagElement.classList.remove("hot_badge", "new_badge", "ss_badge");
-
-        // Set the correct badge class based on popularityTag
-        if (manga.popularityTag) {
-          popularityTagElement.textContent = manga.popularityTag.toUpperCase(); // Set text (HOT, NEW, SS)
-          popularityTagElement.classList.add(`${manga.popularityTag}_badge`); // Add respective class
-        } else {
-          popularityTagElement.style.display = "none"; // Hide if no tag is available
-        }
-
-        document.getElementById("manga-alternative-titles").textContent = manga.alternativeTitles?.join(", ") || "N/A";
-        document.getElementById("manga-author").textContent = manga.authors?.join(", ") || "N/A";
-        document.getElementById("manga-status").textContent = manga.status || "Unknown";
-        document.getElementById("manga-genres").textContent = manga.genres?.join(", ") || "N/A";
-        document.getElementById("manga-last-update").textContent = formatDate(manga.lastUpdated);
-        document.getElementById("manga-views").textContent = manga.views || "N/A";
-        const mangaRating = manga.rating; // Replace this with the actual rating from API
-        setMangaRating(mangaRating);
-        document.getElementById("manga-rating").textContent = mangaRating || "N/A";
-        document.getElementById("manga-rating-2").textContent = mangaRating || "N/A";
-        document.getElementById("manga-likes").textContent = manga.totalLikes || "0";
-        document.getElementById("manga-description").textContent = manga.description || "No description available.";
-        const chapterList = document.getElementById("chapter_list_container");
-        chapterList.innerHTML = manga.chapters.map(chapter => {
-          const chapterTitle = chapter.title ? `: ${chapter.title}` : ""; // Add `:` only if title exists
-          return `
-        <li>
-            <a href="chapter.html?id=${chapter.id}" class="chapter-name">
-                Chapter ${chapter.chapterNumber}${chapterTitle}
-            </a>
-            <span class="chapter-view">${chapter.views || "N/A"}</span>
-            <span class="chapter-time">${chapter.uploadedTime ? formatDate(chapter.uploadedTime) : "N/A"}</span>
-        </li>
-    `;
-        }).join("");
-      } catch (error) {
-        console.error("Error fetching manga details:", error);
-        document.getElementById("manga-details").innerHTML = "<h2>Failed to load manga details</h2>";
-      }
-    }
-
-    fetchMangaDetails();
-  </script>
   <!--
+
   <script>
     const BASE_URL = "http://localhost:5000";
 
-    // 📌 Function to Format Date
-    function formatDate(timestamp) {
+    async function searchManga() {
+      const query = document.getElementById("search").value;
+      const response = await fetch(`${BASE_URL}/search-manga?title=${query}`);
+      const data = await response.json();
+      document.getElementById("results").innerHTML = JSON.stringify(data.data);
+    }
+  </script>
+ -->
+
+  <script>
+    function formatTime(timestamp) {
       const date = new Date(timestamp);
-      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const now = new Date();
+      const diffInSeconds = Math.floor((now - date) / 1000);
+
+      // 1. Format as "1 hour ago" or "2 days ago"
+      if (diffInSeconds < 60) {
+        return `${diffInSeconds} seconds ago`;
+      } else if (diffInSeconds < 3600) {
+        return `${Math.floor(diffInSeconds / 60)} min ago`;
+      } else if (diffInSeconds < 86400) {
+        return `${Math.floor(diffInSeconds / 3600)} hour ago`;
+      } else if (diffInSeconds < 604800) {
+        return `${Math.floor(diffInSeconds / 86400)} day ago`;
+      }
+
+      // 2. Format as "May 14, 2024"
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
       return date.toLocaleDateString('en-US', options);
     }
 
-    // 📌 Fetch Manga Details
-    async function fetchMangaDetails() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const mangaId = urlParams.get("id");
+    const BASE_URL = "http://localhost:5000";
+    const limit = 10;  // Number of manga per page
+    let totalManga = 47276;  // Total manga count (you can dynamically fetch this)
+    let totalPages = Math.ceil(totalManga / limit);
+    let currentPage = 1;
 
-      if (!mangaId) {
-        document.getElementById("manga-details").innerHTML = "<h2>Manga not found</h2>";
-        return;
-      }
-
-      try {
-        const response = await fetch(`${BASE_URL}/manga/${mangaId}`);
-        const manga = await response.json();
-
-        document.getElementById("manga-cover").src = manga.cover;
-        document.getElementById("manga-title").textContent = manga.title;
-        document.getElementById("manga-alternative-titles").textContent = manga.alternativeTitles?.join(", ") || "N/A";
-        document.getElementById("manga-author").textContent = manga.author;
-        document.getElementById("manga-status").textContent = manga.status || "Unknown";
-        document.getElementById("manga-genres").textContent = manga.tags.join(", ");
-        document.getElementById("manga-last-update").textContent = formatDate(manga.lastUpdated);
-        document.getElementById("manga-views").textContent = manga.views || "N/A";
-        document.getElementById("manga-rating").textContent = manga.rating || "N/A";
-        document.getElementById("manga-likes").textContent = manga.likes || "N/A";
-        document.getElementById("manga-description").textContent = manga.description || "No description available.";
-
-        const chapterList = document.getElementById("chapter_list_container");
-        chapterList.innerHTML = manga.chapters.map(chapter => `
-        <li>
-                      <a href="chapter.html?id=${chapter.id}" class="chapter-name">
-                        Chapter ${chapter.chapter}: ${chapter.title}
-                      </a>
-                      <span class="chapter-view">4</span>
-                      <span class="chapter-time">${formatDate(chapter.uploadedAt)}</span>
-                    </li>
-        `).join("");
-      } catch (error) {
-        console.error("Error fetching manga details:", error);
-        document.getElementById("manga-details").innerHTML = "<h2>Failed to load manga details</h2>";
-      }
+    function showLoader() {
+      document.getElementById("loader").style.display = "flex";
     }
 
-    fetchMangaDetails();
+    function hideLoader() {
+      document.getElementById("loader").style.display = "none";
+    }
 
-  </script> -->
+
+    async function fetchNewMangas(page = 1) {
+      showLoader();
+      const offset = (page - 1) * limit;
+      const response = await fetch(`${BASE_URL}/latest-mangas-list?offset=${offset}&limit=${limit}`);
+      const mangaList = await response.json();
+      displayMangaList(mangaList);
+      updatePaginationUI(page);
+      hideLoader();
+    }
+
+    function displayMangaList(mangaArray) {
+      console.log(mangaArray);
+      const container = document.getElementById("list_view_items");
+      container.innerHTML = "";
+      mangaArray.forEach(manga => {
+        const chapterTitle = manga.chapters?.title ? `: ${manga.chapters.title}` : "";
+        totalManga = manga.totalManga;
+        totalPages = Math.ceil(totalManga / limit);
+        console.log(manga.totalManga);
+
+        // Create a new div element for the manga item
+        const mangaItem = document.createElement("div");
+        mangaItem.classList.add("list_view_item");
+        mangaItem.innerHTML = `
+      <div class="item_img">
+    <img src="${manga.cover}" class="img-fluid" alt=""  referrerpolicy="no-referrer">
+    <span class="badge ${manga.popularityTag}_badge">${manga.popularityTag}</span>
+    <span class="rating">
+            <span class="content">${manga.rating}</span>
+            <span class="icon"><i class="fas fa-star"></i></span>
+          </span>
+  </div>
+  <div class="item_content">
+    <h2 class="item_title">
+      <a href="detail-view.html?id=${manga.id}">${manga.title}</a>
+    </h2>
+    <div class="item_chapter">
+      <a href="javascript:void(0)">Chapter ${manga.chapters?.chapter || "N/A"}${chapterTitle}</a>
+    </div>
+    <div class="item_info_wrapper">
+      <div class="info_item item_views">
+        <span class="icon"><i class="fas fa-eye"></i></span>
+        <span>${manga.views || "N/A"}</span>
+      </div>
+      <div class="info_item item_updated_date">
+        <span class="icon"><i class="fas fa-calendar"></i></span>
+        <span>${formatTime(manga.lastUpdated)}</span>
+      </div>
+      <div class="info_item item_author">
+        <span class="icon"><i class="fas fa-user"></i></span>
+        <span>${manga.author}</span>
+      </div>
+    </div>
+    <div class="item_discription">
+      ${manga.description || "No description available."}
+    </div>
+    <div class="item_btn_wrapper">
+      <a href="javascript:void(0)" class="item_read_more_btn">Read More</a>
+    </div>
+  </div>
+  `;
+
+        // Append the new item **at the end** of the container
+        container.appendChild(mangaItem);
+      });
+      // document.getElementById("pageInfo").innerText = `Page ${currentPage}`;
+    }
+
+    // ** Update Pagination UI **
+    function updatePaginationUI(page) {
+      currentPage = page;
+      const currentPageNumberWrapprer = document.querySelector("#currentPageNumber");
+      currentPageNumberWrapprer.innerHTML = `${currentPage}`;
+      const totalMangasContainer = document.querySelector(".total-page");
+      totalMangasContainer.innerHTML = `TOTAL: ${totalManga}`;
+      const pagesWrapper = document.querySelector(".pages_wrapper");
+      pagesWrapper.innerHTML = `
+        <div class="first-page page-item ${page === 1 ? 'disabled' : ''}">
+            <a href="javascript:void(0)" data-page="1">FIRST(1)</a>
+        </div>
+    `;
+
+      // Display up to 3 pages before and after current
+      let startPage = Math.max(1, page - 2);
+      let endPage = Math.min(totalPages, page + 2);
+
+      for (let i = startPage; i <= endPage; i++) {
+        pagesWrapper.innerHTML += `
+            <div class="page-item ${i === page ? 'active' : ''}">
+                <a href="javascript:void(0)" data-page="${i}">${i}</a>
+            </div>
+        `;
+      }
+
+      pagesWrapper.innerHTML += `
+        <div class="last-page page-item ${page === totalPages ? 'disabled' : ''}">
+            <a href="javascript:void(0)" data-page="${totalPages}">LAST (${totalPages})</a>
+        </div>
+    `;
+
+      // Attach event listeners to new pagination items
+      document.querySelectorAll(".page-item a").forEach(item => {
+        item.addEventListener("click", (e) => {
+          let selectedPage = parseInt(e.target.dataset.page);
+          if (!isNaN(selectedPage) && selectedPage !== currentPage) {
+            fetchNewMangas(selectedPage);
+          }
+        });
+      });
+    }
+
+    // ** Initial Load **
+    fetchNewMangas();
+  </script>
 </body>
 
 </html>

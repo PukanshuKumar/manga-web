@@ -119,3 +119,51 @@ genre_filter_list.forEach(function (item) {
 
 
 
+
+async function genreManga() {
+    const BASE_URL = "http://localhost:5000";
+    const response = await fetch(`${BASE_URL}/genres`);
+    const genreList = await response.json();
+    console.log(genreList);
+
+    const container = document.getElementById("genres_list_container");
+    container.innerHTML = "";
+
+    genreList.forEach(genre => {
+        const genreItem = document.createElement("li");
+        genreItem.classList.add("list_item");
+        genreItem.id = genre.id; // Adding ID to <li>
+
+        // Fix URL issue: Use '?' instead of '&' in the query parameter
+        genreItem.innerHTML = `<a href="/list-view.html?genres=${genre.id}&genrenames=${genre.name}"> ${genre.name} </a>`;
+
+        container.appendChild(genreItem);
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const activeGenreId = urlParams.get('genres');
+    let activeStatus = urlParams.get('status');
+    // let activeStatusId = `status_${activeStatus}`;
+    let activeStatusId = activeStatus ? `status_${activeStatus}` : 'status_all';
+
+    if (activeGenreId) {
+        const activeItem = document.getElementById(activeGenreId);
+        if (activeItem) {
+            activeItem.classList.add('active');
+        }
+    }
+
+    const activeStatusItem = document.getElementById(activeStatusId);
+    if (activeStatusItem) {
+        activeStatusItem.classList.add('active');
+        console.log(activeStatusItem);
+
+    } else {
+        console.warn(`Element with ID "${activeStatusId}" not found.`);
+    }
+
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    genreManga();
+  });

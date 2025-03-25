@@ -65,7 +65,7 @@
               <li>
                 <a href="latest-manga.html" class="nav-link">Latest Manga</a>
               </li>
-              <li><a href="hot-manga.html" class="nav-link">Hot Manga</a></li>
+              <li><a href="top-manga.html" class="nav-link">Hot Manga</a></li>
               <li>
                 <a href="new-manga.html" class="nav-link">Newest Manga</a>
               </li>
@@ -374,8 +374,8 @@
                     </div>
                   </div>
                   <ul class="genres_list_wrapper">
-                    <li class="list_item active">
-                      <a href="javascript:void(0)">
+                    <li class="list_item" id="status_all">
+                      <a href="list-view.html?status=all">
                         ALL
                       </a>
                     </li>
@@ -523,19 +523,13 @@
               <div class="list_view_container">
                 <div class="breadcrumb_wrapper">
                   <div class="breadcrumb_item">
-                    <a href="javascript:void(0)">Read Manga Online</a>
+                    <a href="index.html">Read Manga Online</a>
                   </div>
                   <div class="breadcrumb_item">
-                    <a href="javascript:void(0)">Genres:<span>All</span></a>
+                    <a href="javascript:void(0)"><span>Newest</span></a>
                   </div>
                   <div class="breadcrumb_item">
-                    <a href="javascript:void(0)">Status:<span>All</span></a>
-                  </div>
-                  <div class="breadcrumb_item">
-                    <a href="javascript:void(0)"><span>Latest</span></a>
-                  </div>
-                  <div class="breadcrumb_item">
-                    <a href="javascript:void(0)"><span>Page 1</span></a>
+                    <a href="javascript:void(0)"><span>Page <span id="currentPageNumber">1</span></span></a>
                   </div>
                 </div>
                 <div class="list_view_body" id="list_view_items">
@@ -617,9 +611,9 @@
               <section class="genres_section list_view">
                 <div class="section_content">
 
-                  <ul class="genres_list">
-                    <li class="list_item active">
-                      <a href="javascript:void(0)">
+                  <ul class="genres_list"  id="genres_list_container">
+                    <li class="list_item" id="status_all">
+                      <a href="list-view.html?status=all">
                         ALL
                       </a>
                     </li>
@@ -711,34 +705,34 @@
                   </ul>
                   <ul class="genres_list border-bottom">
                     <li class="list_item active">
-                      <a href="javascript:void(0)">
+                      <a href="/list-view.html?sort=latest">
                         Latest
                       </a>
                     </li>
                     <li class="list_item">
-                      <a href="javascript:void(0)">
+                      <a href="/list-view.html?sort=newest">
                         Newest
                       </a>
                     </li>
                     <li class="list_item">
-                      <a href="javascript:void(0)">
+                      <a href="/list-view.html?sort=top-view">
                         Top View
                       </a>
                     </li>
                   </ul>
                   <ul class="genres_list border-bottom">
-                    <li class="list_item active">
-                      <a href="javascript:void(0)">
+                    <li class="list_item" id="status_all">
+                      <a href="list-view.html?status=all">
                         ALL
                       </a>
                     </li>
-                    <li class="list_item">
-                      <a href="javascript:void(0)">
+                    <li class="list_item" id="status_completed">
+                      <a href="list-view.html?status=completed">
                         Completed
                       </a>
                     </li>
-                    <li class="list_item">
-                      <a href="javascript:void(0)">
+                    <li class="list_item" id="status_ongoing">
+                      <a href="list-view.html?status=ongoing">
                         Ongoing
                       </a>
                     </li>
@@ -922,6 +916,7 @@
       mangaArray.forEach(manga => {
         const chapterTitle = manga.chapters?.title ? `: ${manga.chapters.title}` : "";
         totalManga = manga.totalManga;
+        totalPages = Math.ceil(totalManga / limit);
         console.log(manga.totalManga);
 
         // Create a new div element for the manga item
@@ -975,6 +970,8 @@
     // ** Update Pagination UI **
     function updatePaginationUI(page) {
       currentPage = page;
+      const currentPageNumberWrapprer = document.querySelector("#currentPageNumber");
+      currentPageNumberWrapprer.innerHTML = `${currentPage}`;
       const totalMangasContainer = document.querySelector(".total-page");
       totalMangasContainer.innerHTML = `TOTAL: ${totalManga}`;
       const pagesWrapper = document.querySelector(".pages_wrapper");
